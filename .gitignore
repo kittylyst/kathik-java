@@ -10,6 +10,6 @@ buildNumber.properties
 .mvn/timing.properties
 
 # Netbeans files
-
-/java_examples/nbproject/private/
-/java_examples/lib/
+build/
+java_examples/nbproject/private/
+java_examples/lib/
