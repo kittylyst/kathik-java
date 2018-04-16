@@ -2,7 +2,6 @@ package kathik.messaging;
 
 import java.io.*;
 import java.net.Socket;
-import kathik.messaging.SocketFactory;
 import static org.mockito.Mockito.*;
 
 public class MockSocketFactoryImpl implements SocketFactory {
