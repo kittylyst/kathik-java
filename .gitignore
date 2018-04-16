@@ -13,3 +13,4 @@ buildNumber.properties
 build/
 java_examples/nbproject/private/
 java_examples/lib/
+/java_examples/dist/
