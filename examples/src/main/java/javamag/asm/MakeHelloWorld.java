@@ -6,13 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.ACC_STATIC;
-import static org.objectweb.asm.Opcodes.ACC_SUPER;
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
-import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.V1_8;
+import static org.objectweb.asm.Opcodes.*;
 
 /**
  *
@@ -33,8 +27,8 @@ public final class MakeHelloWorld {
     }
 
     public void run() throws IOException {
-        final Path out = Paths.get("MakeHelloWorld.class");
-        Files.write(out, dump("MakeHelloWorld"));
+        final Path out = Paths.get("HelloWorld.class");
+        Files.write(out, dump("HelloWorld"));
     }
 
     public byte[] dump(String outputClazzName) {
@@ -49,8 +43,9 @@ public final class MakeHelloWorld {
     public void addMainMethod() {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         mv.visitCode();
-
-        
+        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+        mv.visitLdcInsn("Hello World!");
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
         mv.visitInsn(RETURN);
         mv.visitMaxs(3, 3);
         mv.visitEnd();
