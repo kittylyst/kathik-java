@@ -20,7 +20,7 @@ public final class MakeHelloWorld {
     public MakeHelloWorld() {
         cw = new ClassWriter(0);
     }
-    
+
     public static void main(String[] args) throws IOException {
         final MakeHelloWorld mkhw = new MakeHelloWorld();
         mkhw.run();
@@ -40,7 +40,16 @@ public final class MakeHelloWorld {
         return cw.toByteArray();
     }
 
-    public void addMainMethod() {
+    void addStandardConstructor() {
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+        mv.visitInsn(RETURN);
+        mv.visitMaxs(1, 1);
+        mv.visitEnd();
+    }
+
+    void addMainMethod() {
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         mv.visitCode();
         mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
@@ -48,15 +57,6 @@ public final class MakeHelloWorld {
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
         mv.visitInsn(RETURN);
         mv.visitMaxs(3, 3);
-        mv.visitEnd();
-    }
-
-    public void addStandardConstructor() {
-        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-        mv.visitVarInsn(ALOAD, 0);
-        mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-        mv.visitInsn(RETURN);
-        mv.visitMaxs(1, 1);
         mv.visitEnd();
     }
 }
